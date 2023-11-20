@@ -1,0 +1,76 @@
+openapi: 3.0.1
+info:
+  title: Upfunnels REST API
+  description: Definições da API
+  contact: {}
+  version: 3.1.5
+servers:
+  - url: http://localhost:3000
+tags:
+  - name: User
+    description: CRUD de usuários
+paths:
+  /user/{username}:
+    get:
+      tags:
+        - User
+      summary: Get a user by username
+      parameters:
+        - name: plateform
+          in: path
+          description: "Playing plateform, can be xb1, ps4 or pc"
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          description: Player username
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: JSON Object of user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  displayName:
+                    type: string
+                  id:
+                    type: string
+                    description: ID of player
+        "404":
+          description: User not found or not found on this plateform
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+      security:
+        - Bearer: []
+components:
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+x-original-swagger-version: "2.0"
